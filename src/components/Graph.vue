@@ -115,6 +115,8 @@ import "jointjs/dist/joint.css"
 //import Component from 'vue-class-component'
 import { jsonFSA } from '../libs/jsonFSA'
 import projFSA from '../libs/projFSA'
+import execJson from '../libs/execJson'
+import bodyNode from '../libs/bodyNode'
 
 //@Component
 export default /*class umlFsm extends jsonFSA*/ {
@@ -265,6 +267,7 @@ export default /*class umlFsm extends jsonFSA*/ {
         },
         async execJSON() {
             const suid = 'test'
+/*
             const response = await fetch(`/code/json/${suid}`,{
                 method: 'POST',      
                 headers: {
@@ -273,11 +276,14 @@ export default /*class umlFsm extends jsonFSA*/ {
                 body: JSON.stringify(this.fsaJSON.get())     
             })
             const data = await response.json()
+*/
+            const data = execJson.build(this.fsaJSON.get())
             console.log(`Execute JSON:`,data)
             this.fsaPROJ.save(JSON.stringify(data),'exec.json')
         },
         async nodejsCODE() {
             const suid = 'test'
+/*            
             const response = await fetch(`/code/nodejs/${suid}`,{
                 method: 'POST',      
                 headers: {
@@ -286,6 +292,8 @@ export default /*class umlFsm extends jsonFSA*/ {
                 body: JSON.stringify(this.fsaJSON.get())     
             })
             const data = await response.text()
+*/
+            const data = bodyNode.build(execJson.build(this.fsaJSON.get()))
             console.log(`Node.js code template:`,data)
             this.fsaPROJ.save(data,'code.js')
         },
